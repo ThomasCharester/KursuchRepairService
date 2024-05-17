@@ -240,35 +240,18 @@ void selectionSort(Item** items, int* size, bool* isSorted) {
 	*isSorted = true;
 }
 
-int partition(Item** items, int low, int high) {
-	Item pivot = (*items)[high];
-	int i = (low - 1);
-
-	for (int j = low; j <= high - 1; j++) {
-		if (!(((*items)[j].date.day == pivot.date.day && ((*items)[j].date.mounth == pivot.date.mounth && (*items)[j].date.year == pivot.date.year))
-			|| ((*items)[j].date.mounth > pivot.date.mounth && (*items)[j].date.year == pivot.date.year)
-			|| (*items)[j].date.year > pivot.date.year)) {
-			i++;
-			Item temp = (*items)[i];
-			(*items)[i] = (*items)[j];
-			(*items)[j] = temp;
-		}
-	}
-	Item temp = (*items)[i + 1];
-	(*items)[i + 1] = (*items)[high];
-	(*items)[high] = temp;
-	return (i + 1);
-}
-void quickSort(Item** items, int low, int high) {
-	if (low < high) {
-		int pi = partition(items, low, high);
-		quickSort(items, low, pi - 1);
-		quickSort(items, pi + 1, high);
-	}
-}
-// Сортировка методом QuickSort
-void quickSort(Item** items, int* size, bool* isSorted) {
-	quickSort(items, 0, *size - 1);
+void bubbleSort(Item** items, int* size, bool* isSorted) {
+	int i, j;
+	for (i = 0; i < *size - 1; i++)
+		for (j = 0; j < *size - i - 1; j++)
+			if ((((*items)[j].date.day == (*items)[j + 1].date.day && ((*items)[j].date.mounth == (*items)[j + 1].date.mounth && (*items)[j].date.year == (*items)[j + 1].date.year))
+				|| ((*items)[j].date.mounth > (*items)[j + 1].date.mounth && (*items)[j].date.year == (*items)[j + 1].date.year)
+				|| (*items)[j].date.year > (*items)[j + 1].date.year))
+			{
+				Item temp = (*items)[j];
+				(*items)[j] = (*items)[j + 1];
+				(*items)[j + 1] = temp;
+			}
 	*isSorted = true;
 }
 // Шаблоны меню
@@ -334,8 +317,8 @@ void searchMenu(Item** items, int* size, bool isSorted) {
 void sortMenu(Item** items, int* size, bool* isSorted) {
 	while (true) {
 		system("cls");
-		cout << "\n1 - Методом выбора"
-			<< "\n2 - Методом быстрой"
+		cout << "\n1 - Методом прямого выбора"
+			<< "\n2 - Методом пузырька"
 			<< "\n0 - Выход";
 
 		int choice = input("\nВыберите метод: ", 0, 2);
@@ -348,7 +331,7 @@ void sortMenu(Item** items, int* size, bool* isSorted) {
 			selectionSort(items, size, isSorted);
 			break;
 		case 2:
-			quickSort(items, size, isSorted);
+			bubbleSort(items, size, isSorted);
 			break;
 		}
 	}
