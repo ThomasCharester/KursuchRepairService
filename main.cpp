@@ -197,8 +197,11 @@ int linearSearch(Item** items, int* size, Date key) {
 	return -1;
 }
 // Бинарный поиск
-int binarySearch(Item** items, int* size, Date key, bool isSorted) {
-	if (!isSorted) return -2;
+int binarySearch(Item** items, int* size, Date key, bool* isSorted) {
+	if (!isSorted) { 
+		selectionSort(items, size, isSorted); 
+		cout << "\nМассив был предварительно отсортирован методом прямого выбора.\n";
+	}
 
 	int high = *size, low = 0;
 	while (low <= high) {
@@ -257,7 +260,7 @@ void bubbleSort(Item** items, int* size, bool* isSorted) {
 // Шаблоны меню
 
 // Меню поиска
-void searchMenu(Item** items, int* size, bool isSorted) {
+void searchMenu(Item** items, int* size, bool *isSorted) {
 	while (true) {
 		system("cls");
 		cout << "\n1 - Линейный поиск"
@@ -367,7 +370,7 @@ void mainMenu(Item** items, int* size, string fileName, bool* isSorted) {
 			removeItem(items, size);
 			break;
 		case 4:
-			searchMenu(items, size, *isSorted);
+			searchMenu(items, size, isSorted);
 			break;
 		case 5:
 			sortMenu(items, size, isSorted);
