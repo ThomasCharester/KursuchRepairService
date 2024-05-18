@@ -187,42 +187,9 @@ void readFile(Item** items, int* size, string filename)
 }
 
 
-// Поиски
-// Линейный поиск
-int linearSearch(Item** items, int* size, Date key) {
-	for (int i = 0; i < *size; i++)
-		if ((*items)[i].date.day == key.day && (*items)[i].date.mounth == key.mounth && (*items)[i].date.year == key.year)
-			return i;
-
-	return -1;
-}
-// Бинарный поиск
-int binarySearch(Item** items, int* size, Date key, bool* isSorted) {
-	if (!isSorted) { 
-		selectionSort(items, size, isSorted); 
-		cout << "\nМассив был предварительно отсортирован методом прямого выбора.\n";
-	}
-
-	int high = *size, low = 0;
-	while (low <= high) {
-		int mid = low + (high - low) / 2;
-
-		if ((*items)[mid].date.day == key.day && (*items)[mid].date.mounth == key.mounth && (*items)[mid].date.year == key.year)
-			return mid;
-		if (!(((*items)[mid].date.day == key.day && ((*items)[mid].date.mounth == key.mounth && (*items)[mid].date.year == key.year))
-			|| ((*items)[mid].date.mounth > key.mounth && (*items)[mid].date.year == key.year)
-			|| (*items)[mid].date.year > key.year))
-			low = mid + 1;
-		else
-			high = mid - 1;
-	}
-
-	return -1;
-}
-
 // Сортировки
 
-// Сортировка методо выбора
+// Сортировка методом выбора
 void selectionSort(Item** items, int* size, bool* isSorted) {
 
 	int i, j, min;
@@ -257,6 +224,40 @@ void bubbleSort(Item** items, int* size, bool* isSorted) {
 			}
 	*isSorted = true;
 }
+// Поиски
+
+// Линейный поиск
+int linearSearch(Item** items, int* size, Date key) {
+	for (int i = 0; i < *size; i++)
+		if ((*items)[i].date.day == key.day && (*items)[i].date.mounth == key.mounth && (*items)[i].date.year == key.year)
+			return i;
+
+	return -1;
+}
+// Бинарный поиск
+int binarySearch(Item** items, int* size, Date key, bool* isSorted) {
+	if (!isSorted) { 
+		selectionSort(items, size, isSorted); 
+		cout << "\nМассив был предварительно отсортирован методом прямого выбора.\n";
+	}
+
+	int high = *size, low = 0;
+	while (low <= high) {
+		int mid = low + (high - low) / 2;
+
+		if ((*items)[mid].date.day == key.day && (*items)[mid].date.mounth == key.mounth && (*items)[mid].date.year == key.year)
+			return mid;
+		if (!(((*items)[mid].date.day == key.day && ((*items)[mid].date.mounth == key.mounth && (*items)[mid].date.year == key.year))
+			|| ((*items)[mid].date.mounth > key.mounth && (*items)[mid].date.year == key.year)
+			|| (*items)[mid].date.year > key.year))
+			low = mid + 1;
+		else
+			high = mid - 1;
+	}
+
+	return -1;
+}
+
 // Шаблоны меню
 
 // Меню поиска
