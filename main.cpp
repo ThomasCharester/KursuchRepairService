@@ -399,6 +399,7 @@ int main() {
 
 	mainMenu(&items, &size, fileName, &isSorted);
 
+	writeFile(&items, &size, fileName);
 
 	return 0;
 }
