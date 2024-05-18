@@ -223,6 +223,38 @@ void bubbleSort(Item** items, int* size, bool* isSorted) {
 			}
 	*isSorted = true;
 }
+int partition(Item** items, int low, int high) {
+	Item pivot = (*items)[high];
+	int i = (low - 1);
+
+	for (int j = low; j <= high - 1; j++) {
+		if (!(((*items)[j].date.day == pivot.date.day && ((*items)[j].date.mounth == pivot.date.mounth && (*items)[j].date.year == pivot.date.year))
+			|| ((*items)[j].date.mounth > pivot.date.mounth && (*items)[j].date.year == pivot.date.year)
+			|| (*items)[j].date.year > pivot.date.year)) {
+			i++;
+			Item temp = (*items)[i];
+			(*items)[i] = (*items)[j];
+			(*items)[j] = temp;
+		}
+	}
+	Item temp = (*items)[i + 1];
+	(*items)[i + 1] = (*items)[high];
+	(*items)[high] = temp;
+	return (i + 1);
+}
+void quickSort(Item** items, int low, int high) {
+	if (low < high) {
+		int pi = partition(items, low, high);
+		quickSort(items, low, pi - 1);
+		quickSort(items, pi + 1, high);
+	}
+}
+// Сортировка методом QuickSort
+void quickSort(Item** items, int* size, bool* isSorted) {
+	quickSort(items, 0, *size - 1);
+	*isSorted = true;
+}
+
 // Поиски
 
 // Линейный поиск
@@ -322,9 +354,10 @@ void sortMenu(Item** items, int* size, bool* isSorted) {
 		system("cls");
 		cout << "\n1 - Методом прямого выбора"
 			<< "\n2 - Методом пузырька"
+			<< "\n3 - Методом бфстрой сортировки"
 			<< "\n0 - Выход";
 
-		int choice = input("\nВыберите метод: ", 0, 2);
+		int choice = input("\nВыберите метод: ", 0, 3);
 
 		switch (choice) {
 		case 0:
@@ -335,6 +368,9 @@ void sortMenu(Item** items, int* size, bool* isSorted) {
 			break;
 		case 2:
 			bubbleSort(items, size, isSorted);
+			break;
+		case 3:
+			quickSort(items, size, isSorted);
 			break;
 		}
 	}
