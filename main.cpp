@@ -182,7 +182,6 @@ void readFile(Item** items, int* size, string filename)
 
 	*items = tempItems;
 
-
 	file.close();
 }
 
@@ -366,9 +365,11 @@ void mainMenu(Item** items, int* size, string fileName, bool* isSorted) {
 			break;
 		case 2:
 			addItem(items, size);
+			*isSorted = false;
 			break;
 		case 3:
 			removeItem(items, size);
+			*isSorted = false;
 			break;
 		case 4:
 			searchMenu(items, size, isSorted);
@@ -378,6 +379,7 @@ void mainMenu(Item** items, int* size, string fileName, bool* isSorted) {
 			break;
 		case 6:
 			readFile(items, size, fileName);
+			*isSorted = false;
 			break;
 		case 7:
 			writeFile(items, size, fileName);
